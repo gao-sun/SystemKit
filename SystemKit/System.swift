@@ -152,6 +152,10 @@ public struct System {
         let niceDiff = Double(load.cpu_ticks.3 - loadPrevious.cpu_ticks.3)
         
         let totalTicks = sysDiff + userDiff + niceDiff + idleDiff
+
+        if totalTicks == 0 {
+            return (0.0, 0.0, 0.0, 0.0)
+        }
         
         let sys  = sysDiff  / totalTicks * 100.0
         let user = userDiff / totalTicks * 100.0
