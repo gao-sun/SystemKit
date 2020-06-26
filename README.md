@@ -1,4 +1,4 @@
-SystemKit
+SystemKit (adpated)
 =========
 
 A macOS system library in Swift based off of
@@ -13,9 +13,8 @@ Apple's top implementation.
 
 ### Requirements
 
-- [Xcode 8.3.3](https://developer.apple.com/xcode/downloads/)
-- macOS 10.9+
-    - This is due to Swift
+- [Latest Xcode](https://developer.apple.com/xcode/downloads/)
+- macOS 10.15+
 
 ### Installation
 
@@ -30,7 +29,7 @@ You can install Carthage with [Homebrew](http://brew.sh) using the following com
 
 To integrate SystemKit into your Xcode project using Carhage, specify it in your Cartfile:
 
-    github "beltex/SystemKit"
+    github "gao-sun/SystemKit"
 
 Run `carthage update` to build the framework and drag the built SystemKit.framework into your Xcode project.
 Don't forget to alter your Carthage [building phase for macOS](https://github.com/Carthage/Carthage#if-youre-building-for-os-x).
