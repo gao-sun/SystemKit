@@ -341,7 +341,9 @@ public struct System {
                                          active     : Double,
                                          inactive   : Double,
                                          wired      : Double,
-                                         compressed : Double) {
+                                         compressed : Double,
+                                         appMemory  : Double,
+                                         cachedFiles: Double) {
         let stats = System.VMStatistics64()
         
         let free     = Double(stats.free_count) * Double(PAGE_SIZE)
@@ -356,8 +358,16 @@ public struct System {
         // Result of the compression. This is what you see in Activity Monitor
         let compressed = Double(stats.compressor_page_count) * Double(PAGE_SIZE)
                                                         / Unit.gigabyte.rawValue
-        
-        return (free, active, inactive, wired, compressed)
+
+        // Credit to https://github.com/iglance/SystemKit
+        // This is what you see in Activity Monitor as "App Memory"
+        let appMemory = Double(stats.internal_page_count - stats.purgeable_count) * Double(PAGE_SIZE)
+                                                        / Unit.gigabyte.rawValue
+
+        // This is what you see in Activity Monitor as "Cached Files"
+        let cachedFiles = Double(stats.external_page_count + stats.purgeable_count) * Double(PAGE_SIZE) / Unit.gigabyte.rawValue
+
+        return (free, active, inactive, wired, compressed, appMemory, cachedFiles)
     }
     
 
