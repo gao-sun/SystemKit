@@ -467,12 +467,12 @@ public struct System {
                 // TODO: Force unwrapping here should be safe, as
                 //       IOPMCopyCPUPowerStatus() defines the keys, but the
                 //       the cast (from AnyObject) could be problematic
-                processorSpeed = dataMap[kIOPMCPUPowerLimitProcessorSpeedKey]!
-                                                                      as! Double
-                processorCount = dataMap[kIOPMCPUPowerLimitProcessorCountKey]!
-                                                                      as! Int
+                processorSpeed = dataMap[kIOPMCPUPowerLimitProcessorSpeedKey]
+                                                                      as? Double ?? 0
+                processorCount = dataMap[kIOPMCPUPowerLimitProcessorCountKey]
+                                                                      as? Int ?? 0
                 schedulerTime  = dataMap[kIOPMCPUPowerLimitSchedulerTimeKey]!
-                                                                      as! Double
+                                                                      as? Double ?? 0
         }
 
         status.deallocate()

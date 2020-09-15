@@ -99,7 +99,11 @@ public struct ProcessAPI {
         // For each CPU set
         for i in 0..<Int(pcnt) {
             var pset: processor_set_name_t = 0
-            result = host_processor_set_priv(machHost, psets![i], &pset)
+            guard let current = psets?[i] else {
+                continue
+            }
+
+            result = host_processor_set_priv(machHost, current, &pset)
             
             if result != KERN_SUCCESS {
                 #if DEBUG
@@ -126,7 +130,9 @@ public struct ProcessAPI {
             
             // For each task
             for x in 0 ..< Int(taskCount) {
-                let task       = tasks![x]
+                guard let task = tasks?[x] else {
+                    continue
+                }
                 var pid: pid_t = 0
                 
                 pid_for_task(task, &pid)
@@ -158,7 +164,7 @@ public struct ProcessAPI {
             
             // TODO: Missing deallocate for tasks
             mach_port_deallocate(mach_task_self_, pset)
-            mach_port_deallocate(mach_task_self_, psets![i])
+            mach_port_deallocate(mach_task_self_, current)
             
             // TODO: Why do dealloc calls on tasks and psets fail?
         }
