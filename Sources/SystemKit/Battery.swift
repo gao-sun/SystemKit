@@ -68,6 +68,8 @@ public struct Battery {
         case IsCharging       = "IsCharging"
         /// Current max charge (this degrades over time)
         case MaxCapacity      = "MaxCapacity"
+        /// M1 Macs use this for mah display
+        case AppleRawMaxCapacity      = "AppleRawMaxCapacity"
         case Temperature      = "Temperature"
         /// Time remaining to charge/discharge
         case TimeRemaining    = "TimeRemaining"
@@ -175,10 +177,13 @@ public struct Battery {
     https://en.wikipedia.org/wiki/Ampere-hour
     */
     public func maxCapactiy() -> Int {
+        let rawProp = IORegistryEntryCreateCFProperty(service,
+                                                      Key.AppleRawMaxCapacity.rawValue as CFString,
+                                                      kCFAllocatorDefault, 0)
         let prop = IORegistryEntryCreateCFProperty(service,
                                                    Key.MaxCapacity.rawValue as CFString,
                                                    kCFAllocatorDefault, 0)
-        return prop?.takeUnretainedValue() as? Int ?? 0
+        return rawProp?.takeUnretainedValue() as? Int ?? prop?.takeUnretainedValue() as? Int ?? 0
     }
     
     
