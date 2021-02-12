@@ -154,7 +154,14 @@ public struct Battery {
     //--------------------------------------------------------------------------
     // MARK: PUBLIC METHODS - BATTERY
     //--------------------------------------------------------------------------
-    
+
+    public func takeUnretainedValue(key: String) -> CFTypeRef? {
+        let prop = IORegistryEntryCreateCFProperty(service,
+                                                   key as CFString,
+                                                   kCFAllocatorDefault, 0)
+        return prop?.takeUnretainedValue()
+    }
+
     
     /**
     Get the current capacity of the battery in mAh. This is essientally the
